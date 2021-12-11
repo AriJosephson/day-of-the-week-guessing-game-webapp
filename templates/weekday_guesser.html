@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../static/js/time_and_stats.js"></script>
+    <link rel="stylesheet" href="../static/css/weekdayguessinggame.css">
+    <link rel="icon" type="image/ico" href="../static/imgs/285670_calendar_icon.ico"/>
+</head>
+<body onload="init()">
+    <!-- May want to properly center things later -->
+<center>
+
+<h1>Welcome to the Weekday Guessing Game!</h1>
+
+<section>
+      <div>
+        <!-- Form with options for generating a random date. -->
+        <form action="." method="POST">
+            <div class = "form_title"><u>Generate a random date.</u></div><br>
+            <!-- Language selection. -->
+            <label for="language">Choose a language:</label>
+            <select id="language" name="language">
+                <option value="de_DE">Deutsch</option>
+                <option value="en_US">English</option>
+                <option value="es_ES">Español</option>
+            </select>
+
+            <br>
+            <!-- Date format. -->
+            <label for="date_format">Date format:</label>
+            <select id="date_format" name="date_format">
+                <option value="%d/%m/%Y">14/03/1592</option>
+                <option value="%d_%B_%Y">14 March 1592</option>
+                <option value="%m/%d/%Y">03/14/1592</option>
+                <option value="%B_%d,_%Y">March 03, 1592</option>
+                <option value="%Y-%m-%d">1592-03-14</option>
+                <option value="%Y_%B_%d">1592 March 14</option>
+            </select>
+            
+            <br>
+            <!-- Frequency of dates within a few centuries of the present. -->
+            <label for="cutoff">Percentage of dates guaranteed to be within a few centuries of the present:</label>
+            <div>
+                <input type="range" id="cutoff" name="cutoff" min="0" max="100" value="" oninput="this.nextElementSibling.value = this.value">
+                <input type="text" id="cutoff_text" name="cutoff_text" value="" oninput="this.previousElementSibling.value = this.value">%
+            </div>
+            <input type="submit" id="generate_date" value="Generate Date" onclick="save_options()">
+        </form>
+      </div>
+</section>
+
+<h3 id="date">{{date}}</h3>
+
+<div id="guessing_game">
+    Enter your guess (not case sensitive):
+    <input type="text" id="guess" placeholder="E.g. Monday, friday" autofocus>
+    <button id="check">Check</button>
+</div>
+
+<div hidden><div><div><div><div id="weekday">{{weekday}}</div></div></div></div></div>
+
+<h3 id="results" hidden></h3>
+<button id="download_results" onclick="download_stats()" hidden>Download Results</button>
+
+<br>
+<button onclick="sessionStorage.clear()">Clear Session</button>
+
+<br><br><br><br>
+
+<div onclick="change_display()">Click here to learn how to determine the weekday of any date.</div>
+<div id="video" style="display:none">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/z2x3SSBVGJU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
+<footer>
+    <a href="https://www.freepik.com/vectors/background">Background vector created by blossomstar - www.freepik.com</a>
+    &emsp;
+    <a href="https://www.iconfinder.com/icons/285670/calendar_icon">Favicon created by Paomedia - www.iconfinder.com</a>
+</footer>
+
+</center>
+
+</body>
+</html>
