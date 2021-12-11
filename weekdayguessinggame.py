@@ -51,3 +51,6 @@ def my_form_post():
     return render_template("weekday_guesser.html", 
                            date=this_date, 
                            weekday=weekday)
+
+if __name__ == '__main__':
+    app.run()
