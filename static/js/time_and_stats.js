@@ -1,6 +1,7 @@
 //TO-DO
 //very time intensive and maybe unnenecessary, but rewrite date generation function in JS
-//put this on a web server
+//add ability to select date range (need to change python and html as well)
+//add a feedback section that will send me an email (form in html and email sending in python to hide address)
 
 // Variables for tracking stats.
 var time_taken = null;
@@ -136,8 +137,8 @@ function stop_timing(start_time) {
 function check(guess) {
     rounds++
     var weekday = document.getElementById("weekday").innerHTML;
-    weekdays.push(weekday);
-    if (guess.toLowerCase() === weekday.toLowerCase()) {
+    weekdays.push(weekday.trim());
+    if (guess.trim().toLowerCase() === weekday.toLowerCase()) {
         is_correct = 1;
         num_correct++;
         message = `Correct!\nThe answer is indeed ${weekday}.`;
