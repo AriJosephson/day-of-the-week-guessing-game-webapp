@@ -17,6 +17,8 @@ from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 
+import os
+print(os.getcwd())
 port = 465  # For SSL
 smtp_server = "smtp.gmail.com"
 sender_email = "fortestanddev@gmail.com"
