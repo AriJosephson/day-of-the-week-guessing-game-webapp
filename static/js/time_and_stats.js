@@ -2,6 +2,8 @@
 //very time intensive and maybe unnenecessary, but rewrite date generation function in JS
 //add ability to select date range (need to change python and html as well)
 //add a feedback section that will send me an email (form in html and email sending in python to hide address)
+//instructions/explanations on how to play (html)
+//explain that white space, no diacritics, and uppercase are ignored (html)
 
 // Variables for tracking stats.
 var time_taken = null;
@@ -138,7 +140,8 @@ function check(guess) {
     rounds++
     var weekday = document.getElementById("weekday").innerHTML;
     weekdays.push(weekday.trim());
-    if (guess.trim().toLowerCase() === weekday.toLowerCase()) {
+    if (guess.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === 
+        weekday.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) {
         is_correct = 1;
         num_correct++;
         message = `Correct!\nThe answer is indeed ${weekday}.`;
