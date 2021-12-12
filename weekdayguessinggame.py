@@ -16,14 +16,13 @@ import time
 from email.mime.text import MIMEText
 from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
+from os import getcwd
 
-import os
-print(os.getcwd())
 port = 465  # For SSL
 smtp_server = "smtp.gmail.com"
 sender_email = "fortestanddev@gmail.com"
 receiver_email = "arij76257@gmail.com"
-password = open('youshallnot.txt','r').read()
+password = open(getcwd()+'youshallnot.txt','r').read()
 
 message = MIMEMultipart("alternative")
 message["Subject"] = "Feedback for Weekday Guessing Game"
