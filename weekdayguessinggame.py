@@ -10,7 +10,7 @@ import random
 from flask import Flask, request, render_template
 
 def generate_date(cutoff=80, lang='en_US', date_format='%Y-%m-%d'):
-    locale.setlocale(locale.LC_ALL, lang)
+    locale.setlocale(locale.LC_ALL, lang+'.utf8')
     randunivar = random.uniform(0, 1) # get uniform random variable from 0 to 1
     
     if randunivar < cutoff/100: # cutoff% of the time do dates within a few centuries of the present
