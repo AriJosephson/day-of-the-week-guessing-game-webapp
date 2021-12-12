@@ -1,9 +1,9 @@
 //TO-DO
 //very time intensive and maybe unnenecessary, but rewrite date generation function in JS
 //add ability to select date range (need to change python and html as well)
-//add a feedback section that will send me an email (form in html and email sending in python to hide address)
 //instructions/explanations on how to play (html)
 //explain that white space, no diacritics, and uppercase are ignored (html)
+//play around with how the footer is displayed (html and css)
 
 // Variables for tracking stats.
 var time_taken = null;
@@ -272,11 +272,11 @@ function download_stats() {
   }
 
 // Display or hide the Numberphile video.
-function change_display() {
-    if (document.getElementById('video').style.display === "none") {
-        document.getElementById('video').style.display = "block";
+function change_display(id) {
+    if (document.getElementById(id).style.display === "none") {
+        document.getElementById(id).style.display = "block";
     }
     else {
-        document.getElementById('video').style.display = "none";
+        document.getElementById(id).style.display = "none";
     }
 }

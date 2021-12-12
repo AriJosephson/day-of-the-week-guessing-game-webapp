@@ -4,10 +4,29 @@ Created on Mon Dec  6 22:39:59 2021
 
 @author: Ari
 """
+# For the main app
 import datetime
 import locale
 import random
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect
+
+# For email feedback
+import smtplib, ssl
+import time
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
+
+port = 465  # For SSL
+smtp_server = "smtp.gmail.com"
+sender_email = "fortestanddev@gmail.com"
+receiver_email = "arij76257@gmail.com"
+password = open('youshallnot.txt','r').read()
+
+message = MIMEMultipart("alternative")
+message["Subject"] = "Feedback for Weekday Guessing Game"
+message["From"] = sender_email
+message["To"] = receiver_email
 
 def generate_date(cutoff=80, lang='en_US', date_format='%Y-%m-%d'):
     locale.setlocale(locale.LC_ALL, lang+'.utf8') # need to add the suffix so it'll work on the server
@@ -36,7 +55,7 @@ def my_form():
     return render_template("weekday_guesser.html", cutoff=80)
 
 @app.route('/', methods=['POST'])
-def my_form_post():
+def generate_date_post():
     cutoff = int(request.form['cutoff'])
     language = request.form['language']
     date_format = request.form['date_format']
@@ -48,6 +67,17 @@ def my_form_post():
     return render_template("weekday_guesser.html", 
                            date=this_date, 
                            weekday=weekday)
+
+@app.route('/feedback_post', methods=['POST'])
+def feedback_post():
+    text = request.form['feedback_text']
+    part1 = MIMEText(text, "plain")
+    message.attach(part1)
+    context = ssl.create_default_context()
+    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+        server.login(sender_email, password)
+        server.sendmail(sender_email, receiver_email, message.as_string())
+    return redirect(request.referrer)
 
 if __name__ == '__main__':
     app.run()
