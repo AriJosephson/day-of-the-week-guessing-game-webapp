@@ -22,7 +22,7 @@ port = 465  # For SSL
 smtp_server = "smtp.gmail.com"
 sender_email = "fortestanddev@gmail.com"
 receiver_email = "arij76257@gmail.com"
-password = open(getcwd()+'youshallnot.txt','r').read()
+password = open('/var/www/weekday-guessing-game-webapp/youshallnot.txt','r').read()
 
 message = MIMEMultipart("alternative")
 message["Subject"] = "Feedback for Weekday Guessing Game"
