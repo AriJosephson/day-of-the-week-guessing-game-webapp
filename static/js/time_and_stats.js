@@ -4,6 +4,7 @@
 //instructions/explanations on how to play (html)
 //explain that white space, no diacritics, and uppercase are ignored (html)
 //play around with how the footer is displayed (html and css)
+//replace all instances of weekday with day of the week
 
 // Variables for tracking stats.
 var start = null;
