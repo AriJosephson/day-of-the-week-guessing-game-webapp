@@ -21,7 +21,8 @@ port = 465  # For SSL
 smtp_server = "smtp.gmail.com"
 sender_email = "fortestanddev@gmail.com"
 receiver_email = "arij76257@gmail.com"
-password = open('/var/www/youshallnot.txt','r').read()
+password = 'rJMyi2v5mzMLpRn'
+#password = open('/var/www/youshallnot.txt','r').read()
 
 message = MIMEMultipart("alternative")
 message["Subject"] = "Feedback for Weekday Guessing Game"

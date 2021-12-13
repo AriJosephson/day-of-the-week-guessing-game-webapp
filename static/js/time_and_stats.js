@@ -6,6 +6,7 @@
 //play around with how the footer is displayed (html and css)
 
 // Variables for tracking stats.
+var start = null;
 var time_taken = null;
 var avg_time = null;
 var message = "";
@@ -72,7 +73,9 @@ if (sessionStorage.getItem("guesses")) {
 
 // Initialize the functions and variables needed to run the game and hide certain parts of the page.
 function init() {
-    track_time();
+    // Timer really doesn't want to be started in this script, so it's done in the body tag in the HTML.
+    // Begin tracking time and stop when the user enters a guess.
+    start = Date.now();
     enter_guess();
 
     // Hide the guessing game if there is no date displayed. Dates are at least 10 characters long.
@@ -117,18 +120,6 @@ function init() {
     
 }
 
-// Timer really doesn't want to be started in this script, so it's done in the body tag in the HTML.
-// Begin tracking time and stop when the user enters a guess.
-function track_time() {
-    var start = Date.now();
-    document.getElementById("guess").addEventListener("keydown", function (e) {
-        if (e.code === "Enter") {
-            stop_timing(start);
-        }
-    });
-    document.getElementById("check").onclick = function() {stop_timing(start)};
-}
-
 // Self-explanatory.
 function stop_timing(start_time) {
     time_taken = (Date.now()-start_time)/1000
@@ -137,6 +128,7 @@ function stop_timing(start_time) {
 
 // Check to see if the guess is correct.
 function check(guess) {
+    stop_timing(start)
     rounds++
     var weekday = document.getElementById("weekday").innerHTML;
     weekdays.push(weekday.trim());
@@ -156,7 +148,7 @@ function check(guess) {
     document.getElementById("check").disabled = true;
 
     // Move cursor to Generate Date button for faster play. Needs to wait a bit so Enter doesn't auto-click.
-    setTimeout(() => { document.getElementById("generate_date").focus(); }, 200);
+    setTimeout(() => { document.getElementById("generate_date").focus(); }, 100);
 
     display_and_save_results()
 }
@@ -178,8 +170,7 @@ function enter_guess() {
     }
 
     // Another is to click the "Check" button.
-    var guess = guess_element.value;
-    document.getElementById("check").onclick = function() {check(guess)};
+    document.getElementById("check").onclick = function() {check(guess_element.value)};
 }
 
 // Save options for next date once "Generate Date" button is clicked.
