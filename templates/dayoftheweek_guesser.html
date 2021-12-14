@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day of the Week Guessing Game</title>
     <script src="../static/js/time_and_stats.js"></script>
-    <link rel="stylesheet" href="../static/css/weekdayguessinggame.css">
+    <script>
+        var test = "{{dayoftheweek}}";
+    </script>
+    <link rel="stylesheet" href="../static/css/dayoftheweekguessinggame.css">
     <link rel="icon" type="image/ico" href="../static/imgs/285670_calendar_icon.ico"/>
 </head>
 <body onload="init()">
@@ -59,7 +62,7 @@
         <button id="check">Check</button>
     </div>
 
-    <div hidden><div><div><div><div id="weekday">{{weekday}}</div></div></div></div></div>
+    <div hidden><div><div><div><div id="dayoftheweek" data-dayoftheweek="{{dayoftheweek}}"></div></div></div></div></div>
 
     <h3 id="results" hidden></h3>
     <button id="download_results" onclick="download_stats()" hidden>Download Results and Statistics</button>

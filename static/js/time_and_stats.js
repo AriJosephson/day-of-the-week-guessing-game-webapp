@@ -21,7 +21,7 @@ var accuracy = 0;
 var num_correct = 0;
 var rounds = 0;
 var times = []; // const won't seem to work here
-var weekdays = [];
+var daysoftheweek = [];
 var dates = [];
 var formats = [];
 var langs = [];
@@ -46,9 +46,9 @@ if (sessionStorage.getItem("times")) {
     times = JSON.parse(retrievedData);
 }
 
-if (sessionStorage.getItem("weekdays")) {
-    var retrievedData = sessionStorage.getItem("weekdays");
-    weekdays = JSON.parse(retrievedData);
+if (sessionStorage.getItem("daysoftheweek")) {
+    var retrievedData = sessionStorage.getItem("daysoftheweek");
+    daysoftheweek = JSON.parse(retrievedData);
 }
 
 if (sessionStorage.getItem("dates")) {
@@ -135,16 +135,16 @@ function stop_timing(start_time) {
 function check(guess) {
     stop_timing(start)
     rounds++
-    var weekday = document.getElementById("weekday").innerHTML;
-    weekdays.push(weekday.trim());
+    var dayoftheweek = document.getElementById("dayoftheweek").dataset.dayoftheweek;
+    daysoftheweek.push(dayoftheweek.trim());
     if (guess.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") === 
-        weekday.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) {
+        dayoftheweek.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) {
         is_correct = 1;
         num_correct++;
-        message = `Correct!\nThe answer is indeed ${weekday}.`;
+        message = `Correct!\nThe answer is indeed ${dayoftheweek}.`;
     }
     else {
-        message = `Incorrect.\nThe answer is ${weekday}.`;
+        message = `Incorrect.\nThe answer is ${dayoftheweek}.`;
     }
     correct.push(is_correct);
 
@@ -207,7 +207,7 @@ function display_and_save_results() {
     sessionStorage.setItem("num_correct", num_correct);
     sessionStorage.setItem("rounds", rounds);
     sessionStorage.setItem("times", JSON.stringify(times));
-    sessionStorage.setItem("weekdays", JSON.stringify(weekdays));
+    sessionStorage.setItem("daysoftheweek", JSON.stringify(daysoftheweek));
     sessionStorage.setItem("dates", JSON.stringify(dates));
     sessionStorage.setItem("formats", JSON.stringify(formats));
     sessionStorage.setItem("langs", JSON.stringify(langs));
@@ -234,26 +234,26 @@ function download_stats() {
     const fname1 = tempname1.replace(/[ ,.:/]/g, '_');
     const tempname2 = date.toLocaleTimeString();
     const fname2 = tempname2.replace(/[ ,.:/]/g, '_');
-    var filename = "weekday_guessing_game_stats_" + fname1 + '_' + fname2 + '.txt'
+    var filename = "day_of_the_week_guessing_game_stats_" + fname1 + '_' + fname2 + '.txt'
 
     // Construct the contents.
     // Rounds, correct, and time are fixed length. Date formats are at the end so don't matter.
     // Variable padding needed for the rest based on length of largest element.
     var maxlendate = max_length(dates);
     var maxlenguess = max_length(guesses);
-    var maxlenweekday = max_length(weekdays);
+    var maxlendayoftheweek = max_length(daysoftheweek);
     var maxlenlang = max_length(langs);
 
-    var contents = `Statistics for Weekday Guessing Game session played on ${tempname1} at ${tempname2}\n\n`;
+    var contents = `Statistics for Day of the Week Guessing Game session played on ${tempname1} at ${tempname2}\n\n`;
     contents += `Rounds Played: ${rounds}\tNumber of Correct Guesses: ${num_correct}\tAccuracy: ${accuracy}%\tAverage Time: ${avg_time}\n\n\n`;
     contents += "Results by Round (Note: For the CORRECT column, 1=yes and 0=no.)\n"
     contents += `ROUND\tDATE${' '.repeat(maxlendate-4)}\tGUESS${' '.repeat(maxlenguess-5)}\t`
-    contents += `ANSWER${' '.repeat(maxlenweekday-6)}\tCORRECT \tTIME\tLANGUAGE${' '.repeat(maxlenlang-8)}\tDATE FORMAT`;
+    contents += `ANSWER${' '.repeat(maxlendayoftheweek-6)}\tCORRECT \tTIME\tLANGUAGE${' '.repeat(maxlenlang-8)}\tDATE FORMAT`;
     
-    for (var i=0; i<weekdays.length; i++) {
+    for (var i=0; i<daysoftheweek.length; i++) {
         contents += `\n${i+1}\t${dates[i]}${' '.repeat(maxlendate-dates[i].length)}\t`;
         contents += `${guesses[i]}${' '.repeat(maxlenguess-guesses[i].length)}\t`;
-        contents += `${weekdays[i]}${' '.repeat(maxlenweekday-weekdays[i].length)}\t${correct[i]}\t\t`; //Extra tab because header is too long.
+        contents += `${daysoftheweek[i]}${' '.repeat(maxlendayoftheweek-daysoftheweek[i].length)}\t${correct[i]}\t\t`; //Extra tab because header is too long.
         contents += `${times[i]}\t${langs[i]}${' '.repeat(maxlenlang-langs[i].length)}\t${formats[i]}`;
     }
 

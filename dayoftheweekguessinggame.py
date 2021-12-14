@@ -20,12 +20,11 @@ from email.mime.multipart import MIMEMultipart
 port = 465  # For SSL
 smtp_server = "smtp.gmail.com"
 sender_email = "fortestanddev@gmail.com"
-receiver_email = "arij76257@gmail.com"
-password = 'rJMyi2v5mzMLpRn'
-#password = open('/var/www/youshallnot.txt','r').read()
+receiver_email = open('/var/www/youshallnot.txt','r').readlines()[0]
+password = open('/var/www/youshallnot.txt','r').readlines()[1]
 
 message = MIMEMultipart("alternative")
-message["Subject"] = "Feedback for Weekday Guessing Game"
+message["Subject"] = "Feedback for Day of the Week Guessing Game"
 message["From"] = sender_email
 message["To"] = receiver_email
 
@@ -61,7 +60,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def my_form():
-    return render_template("weekday_guesser.html", cutoff=80)
+    return render_template("dayoftheweek_guesser.html", cutoff=80)
 
 @app.route('/', methods=['POST'])
 def generate_date_post():
@@ -69,13 +68,13 @@ def generate_date_post():
     language = request.form['language']
     date_format = request.form['date_format']
 
-    this_date, weekday = generate_date(cutoff=cutoff,
+    this_date, dayoftheweek = generate_date(cutoff=cutoff,
                                        lang=language,
                                        date_format=date_format.replace('_',' '))
     
-    return render_template("weekday_guesser.html", 
+    return render_template("dayoftheweek_guesser.html", 
                            date=this_date, 
-                           weekday=weekday)
+                           dayoftheweek=dayoftheweek)
 
 @app.route('/feedback_post', methods=['POST'])
 def feedback_post():
