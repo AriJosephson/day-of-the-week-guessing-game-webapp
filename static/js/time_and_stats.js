@@ -1,6 +1,10 @@
 //TO-DO
 //very time intensive and maybe unnenecessary, but rewrite date generation function in JS
+
+
 //add ability to select date range (need to change python and html as well)
+
+
 //instructions/explanations on how to play (html)
 //explain that white space, no diacritics, and uppercase are ignored (html)
 //play around with how the footer is displayed (html and css)

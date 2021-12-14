@@ -29,17 +29,25 @@ message["Subject"] = "Feedback for Weekday Guessing Game"
 message["From"] = sender_email
 message["To"] = receiver_email
 
-def generate_date(cutoff=80, lang='en_US', date_format='%Y-%m-%d'):
+def generate_date(cutoff=80, lang='en_US', date_format='%Y-%m-%d', start_year=1582, end_year=9999):
     locale.setlocale(locale.LC_ALL, lang+'.utf8') # need to add the suffix so it'll work on the server
-    randunivar = random.uniform(0, 1) # get uniform random variable from 0 to 1
     
-    if randunivar < cutoff/100: # cutoff% of the time do dates within a few centuries of the present
+    if start_year == 1582:
         start_date = datetime.date(1582, 10, 15)
-        end_date = datetime.date(2400, 12, 31)
-
     else:
-        start_date = datetime.date(1582, 10, 15)
-        end_date = datetime.date(9999, 12, 31)
+        start_date = datetime.date(start_year, 1, 1)
+    end_date = datetime.date(end_year, 12, 31)
+
+    if True: # EXPAND THIS LATER
+        randunivar = random.uniform(0, 1) # get uniform random variable from 0 to 1
+        
+        if randunivar < cutoff/100: # cutoff% of the time do dates within a few centuries of the present
+            start_date = datetime.date(1582, 10, 15)
+            end_date = datetime.date(2400, 12, 31)
+
+        else:
+            start_date = datetime.date(1582, 10, 15)
+            end_date = datetime.date(9999, 12, 31)
     
     time_between_dates = end_date - start_date
     days_between_dates = time_between_dates.days
