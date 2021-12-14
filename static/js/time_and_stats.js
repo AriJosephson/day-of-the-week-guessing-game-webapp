@@ -1,14 +1,8 @@
 //TO-DO
 //very time intensive and maybe unnenecessary, but rewrite date generation function in JS
-
-
-//add ability to select date range (need to change python and html as well)
-
-
 //instructions/explanations on how to play (html)
 //explain that white space, no diacritics, and uppercase are ignored (html)
-//play around with how the footer is displayed (html and css)
-//replace all instances of weekday with day of the week
+//use cutoff variable as a sort of weight for the middle of a range
 
 // Variables for tracking stats.
 var start = null;
@@ -114,6 +108,24 @@ function init() {
         document.getElementById("date_format").value = "%Y-%m-%d";
     }
 
+    if (sessionStorage.getItem("start_year")) {
+        document.getElementById("start_year").value = sessionStorage.getItem("start_year");
+        document.getElementById("start_year_text").value = sessionStorage.getItem("start_year");
+    }
+    else {
+        document.getElementById("start_year").value = 1582;
+        document.getElementById("start_year_text").value = 1582;
+    }
+
+    if (sessionStorage.getItem("end_year")) {
+        document.getElementById("end_year").value = sessionStorage.getItem("end_year");
+        document.getElementById("end_year_text").value = sessionStorage.getItem("end_year");
+    }
+    else {
+        document.getElementById("end_year").value = 9999;
+        document.getElementById("end_year_text").value = 9999;
+    }
+
     if (sessionStorage.getItem("cutoff")) {
         document.getElementById("cutoff").value = sessionStorage.getItem("cutoff");
         document.getElementById("cutoff_text").value = sessionStorage.getItem("cutoff");
@@ -180,11 +192,20 @@ function enter_guess() {
 
 // Save options for next date once "Generate Date" button is clicked.
 function save_options() {
+    // If the end year is less than the start year, set them both to the lower value to avoid a Python error.
+    if (document.getElementById("end_year").value < document.getElementById("start_year").value) {
+        document.getElementById("start_year").value = document.getElementById("end_year").value   
+    }
+
     var date_format = document.getElementById("date_format").value;
     var language = document.getElementById("language").value;
+    var start_year = document.getElementById("start_year").value;
+    var end_year = document.getElementById("end_year").value;
     var cutoff = document.getElementById("cutoff").value;
     sessionStorage.setItem("language", language);
     sessionStorage.setItem("date_format", date_format);
+    sessionStorage.setItem("start_year", start_year);
+    sessionStorage.setItem("end_year", end_year);
     sessionStorage.setItem("cutoff", cutoff);
 }
 
@@ -247,13 +268,13 @@ function download_stats() {
     var contents = `Statistics for Day of the Week Guessing Game session played on ${tempname1} at ${tempname2}\n\n`;
     contents += `Rounds Played: ${rounds}\tNumber of Correct Guesses: ${num_correct}\tAccuracy: ${accuracy}%\tAverage Time: ${avg_time}\n\n\n`;
     contents += "Results by Round (Note: For the CORRECT column, 1=yes and 0=no.)\n"
-    contents += `ROUND\tDATE${' '.repeat(maxlendate-4)}\tGUESS${' '.repeat(maxlenguess-5)}\t`
+    contents += `ROUND\tDATE${' '.repeat(maxlendate-4)}\tGUESS${' '.repeat(Math.abs(maxlenguess-5))}\t` // abs() to account for short guesses
     contents += `ANSWER${' '.repeat(maxlendayoftheweek-6)}\tCORRECT \tTIME\tLANGUAGE${' '.repeat(maxlenlang-8)}\tDATE FORMAT`;
     
     for (var i=0; i<daysoftheweek.length; i++) {
         contents += `\n${i+1}\t${dates[i]}${' '.repeat(maxlendate-dates[i].length)}\t`;
         contents += `${guesses[i]}${' '.repeat(maxlenguess-guesses[i].length)}\t`;
-        contents += `${daysoftheweek[i]}${' '.repeat(maxlendayoftheweek-daysoftheweek[i].length)}\t${correct[i]}\t\t`; //Extra tab because header is too long.
+        contents += `${daysoftheweek[i]}${' '.repeat(maxlendayoftheweek-daysoftheweek[i].length)}\t${correct[i]}\t\t`; // Extra tab because header is too long.
         contents += `${times[i]}\t${langs[i]}${' '.repeat(maxlenlang-langs[i].length)}\t${formats[i]}`;
     }
 
@@ -267,12 +288,17 @@ function download_stats() {
     document.body.removeChild(element);
   }
 
-// Display or hide the Numberphile video.
+// Display or hide the Numberphile video or feedback section. When displayed, move to it and focus on it if possible.
 function change_display(id) {
-    if (document.getElementById(id).style.display === "none") {
-        document.getElementById(id).style.display = "block";
+    var clicked_element = document.getElementById(id);
+    if (clicked_element.style.display === "none") {
+        clicked_element.style.display = "block";
+        clicked_element.scrollIntoView(); 
+        if (id === "feedback") {
+            document.getElementById(id+"_text").focus();
+        }
     }
     else {
-        document.getElementById(id).style.display = "none";
+        clicked_element.style.display = "none";
     }
 }

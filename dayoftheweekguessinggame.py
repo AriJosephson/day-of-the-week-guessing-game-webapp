@@ -28,7 +28,7 @@ message["Subject"] = "Feedback for Day of the Week Guessing Game"
 message["From"] = sender_email
 message["To"] = receiver_email
 
-def generate_date(cutoff=80, lang='en_US', date_format='%Y-%m-%d', start_year=1582, end_year=9999):
+def generate_date(start_year=1582, end_year=9999, cutoff=80, lang='en_US', date_format='%Y-%m-%d'):
     locale.setlocale(locale.LC_ALL, lang+'.utf8') # need to add the suffix so it'll work on the server
     
     if start_year == 1582:
@@ -37,16 +37,16 @@ def generate_date(cutoff=80, lang='en_US', date_format='%Y-%m-%d', start_year=15
         start_date = datetime.date(start_year, 1, 1)
     end_date = datetime.date(end_year, 12, 31)
 
-    if True: # EXPAND THIS LATER
-        randunivar = random.uniform(0, 1) # get uniform random variable from 0 to 1
+    # if True: # EXPAND THIS LATER
+    #     randunivar = random.uniform(0, 1) # get uniform random variable from 0 to 1
         
-        if randunivar < cutoff/100: # cutoff% of the time do dates within a few centuries of the present
-            start_date = datetime.date(1582, 10, 15)
-            end_date = datetime.date(2400, 12, 31)
+    #     if randunivar < cutoff/100: # cutoff% of the time do dates within a few centuries of the present
+    #         start_date = datetime.date(1582, 10, 15)
+    #         end_date = datetime.date(2400, 12, 31)
 
-        else:
-            start_date = datetime.date(1582, 10, 15)
-            end_date = datetime.date(9999, 12, 31)
+    #     else:
+    #         start_date = datetime.date(1582, 10, 15)
+    #         end_date = datetime.date(9999, 12, 31)
     
     time_between_dates = end_date - start_date
     days_between_dates = time_between_dates.days
@@ -60,19 +60,23 @@ app = Flask(__name__)
 
 @app.route('/')
 def my_form():
-    return render_template("dayoftheweek_guesser.html", cutoff=80)
+    return render_template("dayoftheweek_guesser.html")
 
 @app.route('/', methods=['POST'])
 def generate_date_post():
+    start_year = int(request.form['start_year'])
+    end_year = int(request.form['end_year'])
     cutoff = int(request.form['cutoff'])
     language = request.form['language']
     date_format = request.form['date_format']
 
-    this_date, dayoftheweek = generate_date(cutoff=cutoff,
-                                       lang=language,
-                                       date_format=date_format.replace('_',' '))
+    this_date, dayoftheweek = generate_date(start_year=start_year,
+                                            end_year=end_year,
+                                            cutoff=cutoff,
+                                            lang=language,
+                                            date_format=date_format.replace('_',' '))
     
-    return render_template("dayoftheweek_guesser.html", 
+    return render_template("dayoftheweek_guesser.html",
                            date=this_date, 
                            dayoftheweek=dayoftheweek)
 

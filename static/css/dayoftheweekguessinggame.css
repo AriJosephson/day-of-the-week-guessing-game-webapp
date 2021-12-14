@@ -10,10 +10,19 @@ footer {
   position:fixed;
   bottom:0;
   width: 100%;
+  z-index: -1; /* Sends this element to the background. */
 }
 
 #results {
     white-space: pre-wrap;
+}
+
+#cutoff_text {
+  width: 15px;
+}
+
+.year {
+  width: 30px;
 }
 
 /* This didn't work on its own and idk why. Had to put it directly in the div.

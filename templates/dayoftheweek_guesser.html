@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Day of the Week Guessing Game</title>
     <script src="../static/js/time_and_stats.js"></script>
-    <script>
-        var test = "{{dayoftheweek}}";
-    </script>
     <link rel="stylesheet" href="../static/css/dayoftheweekguessinggame.css">
     <link rel="icon" type="image/ico" href="../static/imgs/285670_calendar_icon.ico"/>
 </head>
@@ -43,11 +40,28 @@
                 </select>
                 
                 <br>
+                <!-- Earliest year for range of generated dates. -->
+                <label for="start_year">Earliest possible year:</label>
+                <div>
+                    <input type="range" id="start_year" name="start_year" min="1582" max="9999" value="" oninput="this.nextElementSibling.value = this.value">
+                    <input type="text" id="start_year_text" class="year" name="start_year_text" value="" oninput="this.previousElementSibling.value = this.value">
+                </div>
+
+                <!-- Latest year for range of generated dates. -->
+                <label for="end_year">Latest possible year:</label>
+                <div>
+                    <input type="range" id="end_year" name="end_year" min="1582" max="9999" value="" oninput="this.nextElementSibling.value = this.value">
+                    <input type="text" id="end_year_text" class="year" name="end_year_text" value="" oninput="this.previousElementSibling.value = this.value">
+                </div>
+
                 <!-- Frequency of dates within a few centuries of the present. -->
+                <!-- DELETE EXTRA DIV ONCE THIS FEATURE IS IMPLEMENTED -->
+                <div hidden>
                 <label for="cutoff">Percentage of dates guaranteed to be within a few centuries of the present:</label>
                 <div>
                     <input type="range" id="cutoff" name="cutoff" min="0" max="100" value="" oninput="this.nextElementSibling.value = this.value">
                     <input type="text" id="cutoff_text" name="cutoff_text" value="" oninput="this.previousElementSibling.value = this.value">%
+                </div>
                 </div>
                 <input type="submit" id="generate_date" value="Generate Date" onclick="save_options()">
             </form>
@@ -93,8 +107,9 @@
         &emsp;
         <a href="https://www.iconfinder.com/icons/285670/calendar_icon">Favicon created by Paomedia - www.iconfinder.com</a>
     </footer>
-
-</center>
+    
+    </center>
 
 </body>
+
 </html>
