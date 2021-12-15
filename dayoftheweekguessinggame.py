@@ -20,8 +20,8 @@ from email.mime.multipart import MIMEMultipart
 port = 465  # For SSL
 smtp_server = "smtp.gmail.com"
 sender_email = "fortestanddev@gmail.com"
-receiver_email = open('/var/www/youshallnot.txt','r').readlines()[0]
-password = open('/var/www/youshallnot.txt','r').readlines()[1]
+receiver_email = open('youshallnot.txt','r').readlines()[0]
+password = open('youshallnot.txt','r').readlines()[1]
 
 message = MIMEMultipart("alternative")
 message["Subject"] = "Feedback for Day of the Week Guessing Game"
