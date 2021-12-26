@@ -3,6 +3,7 @@
 //instructions/explanations on how to play (html)
 //explain that white space, no diacritics, and uppercase are ignored (html)
 //use cutoff variable as a sort of weight for the middle of a range
+//add option to toggle textbox vs buttons
 
 // Variables for tracking stats.
 var start = null;
@@ -72,10 +73,6 @@ if (sessionStorage.getItem("guesses")) {
 
 // Initialize the functions and variables needed to run the game and hide certain parts of the page.
 function init() {
-    // Timer really doesn't want to be started in this script, so it's done in the body tag in the HTML.
-    // Begin tracking time and stop when the user enters a guess.
-    start = Date.now();
-    enter_guess();
 
     // Hide the guessing game if there is no date displayed. Dates are at least 10 characters long.
     if (document.getElementById("date").innerHTML.length < 9) {
@@ -135,6 +132,17 @@ function init() {
         document.getElementById("cutoff_text").value = 80;
     }
     
+    // Set names for the day buttons based on language chosen.
+    var setlang = document.getElementById("language").value;
+    for (var i=0; i<7; i++) {
+        document.getElementById(`day${i}`).innerHTML = new Intl.DateTimeFormat(setlang.replace('_','-'), {weekday: 'long'}).format(new Date(`January ${i+1}, 2017`));
+    }
+
+    // Timer really doesn't want to be started in this script, so it's done in the body tag in the HTML.
+    // Begin tracking time and stop when the user enters a guess.
+    start = Date.now();
+    enter_guess();
+    
 }
 
 // Self-explanatory.
@@ -172,9 +180,10 @@ function check(guess) {
 
 // Function to let the user enter a guess.
 function enter_guess() {
+    // Using the textbox:
     var guess_element = document.getElementById("guess");
 
-    //One method is to press enter.
+    // One method is to press enter.
     guess_element.addEventListener("keydown", function (e) {
         if (e.code === "Enter") {
             check_enter(e);
@@ -188,6 +197,16 @@ function enter_guess() {
 
     // Another is to click the "Check" button.
     document.getElementById("check").onclick = function() {check(guess_element.value)};
+
+    // Using the buttons (couldn't figure out if a for loop would work):
+    document.getElementById("day0").onclick = function() {check(document.getElementById("day0").innerHTML)};
+    document.getElementById("day1").onclick = function() {check(document.getElementById("day1").innerHTML)};
+    document.getElementById("day2").onclick = function() {check(document.getElementById("day2").innerHTML)};
+    document.getElementById("day3").onclick = function() {check(document.getElementById("day3").innerHTML)};
+    document.getElementById("day4").onclick = function() {check(document.getElementById("day4").innerHTML)};
+    document.getElementById("day5").onclick = function() {check(document.getElementById("day5").innerHTML)};
+    document.getElementById("day6").onclick = function() {check(document.getElementById("day6").innerHTML)};
+
 }
 
 // Save options for next date once "Generate Date" button is clicked.
