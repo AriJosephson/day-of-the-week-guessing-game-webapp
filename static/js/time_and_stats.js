@@ -169,8 +169,8 @@ function check(guess) {
     correct.push(is_correct);
 
     // Only allow one guess.
-    document.getElementById("guess").disabled = true;
-    document.getElementById("check").disabled = true;
+    var inputs = document.getElementById("guessing_game").children
+    for (let el of inputs) { el.disabled = true; }
 
     // Move cursor to Generate Date button for faster play. Needs to wait a bit so Enter doesn't auto-click.
     setTimeout(() => { document.getElementById("generate_date").focus(); }, 100);
