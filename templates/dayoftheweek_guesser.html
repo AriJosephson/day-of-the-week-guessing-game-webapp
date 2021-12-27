@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Day of the week guessing game inspired by the Doomsday Algorithm Numberphile video.">
+    <meta name="keywords" content="doomsday, algorithm, doomsday algorithm, numberphile, calendar trick, calendar, day of the week, guessing game, random date">
+    <meta name="author" content="Ari J.">
     <title>Day of the Week Guessing Game</title>
     <script src="../static/js/time_and_stats.js"></script>
     <link rel="stylesheet" href="../static/css/dayoftheweekguessinggame.css">
@@ -63,6 +66,13 @@
                     <input type="text" id="cutoff_text" name="cutoff_text" value="" oninput="this.previousElementSibling.value = this.value">%
                 </div>
                 </div>
+
+                <!-- Options for how to input the day of the week. -->
+                <label for="enable_text">Answer input options: </label>
+                <input type="checkbox" id="enable_text" value="">Text Box
+                <input type="checkbox" id="enable_buttons" value="">Buttons
+                
+                <br>
                 <input type="submit" id="generate_date" value="Generate Date" onclick="save_options()">
             </form>
         </div>
@@ -71,19 +81,24 @@
     <h3 id="date">{{date}}</h3>
 
     <div id="guessing_game">
-        Enter your guess (not case sensitive):
-        <input type="text" id="guess" placeholder="E.g. Monday, friday" autofocus>
-        <button id="check">Check</button>
+        <div id="text_input">
+            Enter your guess (not case sensitive):
+            <input type="text" id="guess" placeholder="E.g. Monday, friday" autofocus>
+            <button id="check">Check</button>
+        </div>
 
-        <br>
-        <button id="day0"></button> 
-        <button id="day1"></button>
-        <button id="day2"></button>
-        <button id="day3"></button>
-        <br>
-        <button id="day4"></button>
-        <button id="day5"></button>
-        <button id="day6"></button>
+        <div id="button_input">
+            <label for="day0" id="buttons_label">Click on your guess below.</label>
+            <br>
+            <button id="day0"></button> 
+            <button id="day1"></button>
+            <button id="day2"></button>
+            <button id="day3"></button>
+            <br>
+            <button id="day4"></button>
+            <button id="day5"></button>
+            <button id="day6"></button>
+        </div>
     </div>
 
     <div hidden><div><div><div><div id="dayoftheweek" data-dayoftheweek="{{dayoftheweek}}"></div></div></div></div></div>

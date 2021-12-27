@@ -131,11 +131,41 @@ function init() {
         document.getElementById("cutoff").value = 80;
         document.getElementById("cutoff_text").value = 80;
     }
+
+    if (sessionStorage.getItem("enable_text")) {
+        document.getElementById("enable_text").checked = JSON.parse(sessionStorage.getItem("enable_text"));
+    }
+    else {
+        document.getElementById("enable_text").checked = true;
+    }
+
+    if (sessionStorage.getItem("enable_buttons")) {
+        document.getElementById("enable_buttons").checked = JSON.parse(sessionStorage.getItem("enable_buttons"));
+    }
+    else {
+        document.getElementById("enable_buttons").checked = true;
+    }
     
     // Set names for the day buttons based on language chosen.
     var setlang = document.getElementById("language").value;
     for (var i=0; i<7; i++) {
         document.getElementById(`day${i}`).innerHTML = new Intl.DateTimeFormat(setlang.replace('_','-'), {weekday: 'long'}).format(new Date(`January ${i+1}, 2017`));
+    }
+
+    // Display input options based on checkboxes.
+    if (document.getElementById("enable_text").checked == false && document.getElementById("enable_buttons").checked == false) {
+        document.getElementById("enable_text").checked = true;
+        document.getElementById("enable_buttons").checked = true;
+        document.getElementById("buttons_label").innerText = "Or, click on your guess below.";
+    }
+    else if (document.getElementById("enable_text").checked == false) {
+        document.getElementById("text_input").hidden = true;
+    }
+    else if (document.getElementById("enable_buttons").checked == false) {
+        document.getElementById("button_input").hidden = true;
+    }
+    else {
+        document.getElementById("buttons_label").innerText = "Or, click on your guess below.";
     }
 
     // Timer really doesn't want to be started in this script, so it's done in the body tag in the HTML.
@@ -169,8 +199,8 @@ function check(guess) {
     correct.push(is_correct);
 
     // Only allow one guess.
-    var inputs = document.getElementById("guessing_game").children
-    for (let el of inputs) { el.disabled = true; }
+    for (let el of document.getElementById("text_input").children) { el.disabled = true; }
+    for (let el of document.getElementById("button_input").children) { el.disabled = true; }
 
     // Move cursor to Generate Date button for faster play. Needs to wait a bit so Enter doesn't auto-click.
     setTimeout(() => { document.getElementById("generate_date").focus(); }, 100);
@@ -221,11 +251,15 @@ function save_options() {
     var start_year = document.getElementById("start_year").value;
     var end_year = document.getElementById("end_year").value;
     var cutoff = document.getElementById("cutoff").value;
+    var enable_text = document.getElementById("enable_text").checked;
+    var enable_buttons = document.getElementById("enable_buttons").checked;
     sessionStorage.setItem("language", language);
     sessionStorage.setItem("date_format", date_format);
     sessionStorage.setItem("start_year", start_year);
     sessionStorage.setItem("end_year", end_year);
     sessionStorage.setItem("cutoff", cutoff);
+    sessionStorage.setItem("enable_text", enable_text);
+    sessionStorage.setItem("enable_buttons", enable_buttons);
 }
 
 // Display guess-specific and cumulative results. Save session results as well.
