@@ -3,7 +3,6 @@
 //instructions/explanations on how to play (html)
 //explain that white space, no diacritics, and uppercase are ignored (html)
 //use cutoff variable as a sort of weight for the middle of a range
-//add option to toggle textbox vs buttons
 
 // Variables for tracking stats.
 var start = null;
