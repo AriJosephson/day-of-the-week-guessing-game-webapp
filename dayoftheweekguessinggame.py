@@ -83,13 +83,15 @@ def generate_date_post():
 @app.route('/feedback_post', methods=['POST'])
 def feedback_post():
     text = request.form['feedback_text']
-    part1 = MIMEText(text, "plain")
-    message.attach(part1)
-    context = ssl.create_default_context()
-    with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-        server.login(sender_email, password)
-        server.sendmail(sender_email, receiver_email, message.as_string())
-    return redirect(request.referrer)
+    # Don't send empty messages.
+    if text != "":
+        part1 = MIMEText(text, "plain")
+        message.attach(part1)
+        context = ssl.create_default_context()
+        with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+            server.login(sender_email, password)
+            server.sendmail(sender_email, receiver_email, message.as_string())
+        return redirect(request.referrer)
 
 if __name__ == '__main__':
     app.run()
