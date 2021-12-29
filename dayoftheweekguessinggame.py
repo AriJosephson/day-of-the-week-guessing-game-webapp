@@ -91,7 +91,8 @@ def feedback_post():
         with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
             server.login(sender_email, password)
             server.sendmail(sender_email, receiver_email, message.as_string())
-        return redirect(request.referrer)
+    
+    return redirect(request.referrer)
 
 if __name__ == '__main__':
     app.run()
