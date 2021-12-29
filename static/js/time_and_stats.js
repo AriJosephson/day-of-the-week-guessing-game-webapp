@@ -195,6 +195,7 @@ function check(guess) {
     else {
         message = `Incorrect.\nThe answer is ${dayoftheweek}.`;
     }
+    guesses.push(guess);
     correct.push(is_correct);
 
     // Only allow one guess.
@@ -242,7 +243,7 @@ function enter_guess() {
 function save_options() {
     // If the end year is less than the start year, set them both to the lower value to avoid a Python error.
     if (document.getElementById("end_year").value < document.getElementById("start_year").value) {
-        document.getElementById("start_year").value = document.getElementById("end_year").value   
+        document.getElementById("start_year").value = document.getElementById("end_year").value;
     }
 
     var date_format = document.getElementById("date_format").value;
@@ -273,8 +274,6 @@ function display_and_save_results() {
     
     var date = document.getElementById("date").innerHTML;
     dates.push(date);
-    var guess = document.getElementById("guess").value;
-    guesses.push(guess);
     formats.push(date_formats[sessionStorage.getItem("date_format")]);
     langs.push(languages[sessionStorage.getItem("language")])
     sessionStorage.setItem("num_correct", num_correct);
